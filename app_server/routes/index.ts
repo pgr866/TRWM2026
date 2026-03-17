@@ -1,8 +1,14 @@
 import express from 'express';
 const router = express.Router();
-import * as ctrlMain from '../controllers/main.js';
+import * as ctrlLocations from '../controllers/locations.js';
+import * as ctrlOthers from '../controllers/others.js';
 
-/* GET home page. */
-router.get('/', ctrlMain.index);
+/* Location pages */
+router.get('/', ctrlLocations.homelist);
+router.get('/location', ctrlLocations.locationInfo);
+router.get('/location/review/new', ctrlLocations.addReview);
+
+/* Other pages */
+router.get("/about", ctrlOthers.about);
 
 export default router;
