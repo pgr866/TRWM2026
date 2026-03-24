@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import { type Request, type Response, type NextFunction } from 'express';
+import './app_server/models/db.js';
 
 import indexRouter from './app_server/routes/index.js';
 import usersRouter from './app_server/routes/users.js';

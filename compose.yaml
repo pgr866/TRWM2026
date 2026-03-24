@@ -7,6 +7,17 @@ services:
       - node-cache:/app/node_modules
     ports:
       - "3000:3000"
+  
+  mongodb:
+    image: mongo:latest
+    container_name: trwm2026-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: loc8r
+      MONGO_INITDB_ROOT_PASSWORD: loc8rpass
 
 volumes:
   node-cache:
