@@ -1,0 +1,47 @@
+name: TWM CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: node:22-alpine
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Install git and bash
+        run: apk add --no-cache git bash
+      
+      - uses: actions/checkout@v2
+      
+      - name: Git Workaround
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Install dependencies
+        run: |
+          npm ci
+      
+      - name: Run tests
+        run: |
+          npm test
+      
+      - name: Test Report
+        uses: dorny/test-reporter@v3
+        if: ${{ !cancelled() }} # run this step even if previous step failed
+        with:
+          name: JEST Tests # Name of the check run which will be created
+          path: reports/junit/junit.xml # Path to test results
+          reporter: jest-junit # Format of test results
+      
+      - name: Test
+        uses: mattallty/jest-github-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          test-command: "npm run test"

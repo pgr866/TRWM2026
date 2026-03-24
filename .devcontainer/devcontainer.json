@@ -1,29 +1,22 @@
 {
   "name": "trwm2026",
-  "image": "node:24-alpine",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind",
-  "mounts": [
-    "source=${localEnv:HOME}/.gitconfig,target=/root/.gitconfig,type=bind",
-    "source=trwm2026-node-modules,target=/app/node_modules,type=volume"
-  ],
-  "appPort": [3000],
+  "dockerComposeFile": "../compose.yaml",
+  "service": "app",
   "workspaceFolder": "/app",
-  "remoteUser": "root",
-  "postCreateCommand": "apk add --no-cache git bash && npm i -g npm@latest && npm ci --prefix /app && git -C /app -c safe.directory=/app config url.\"https://github.com/\".insteadOf \"git@github.com:\"",
-  "postStartCommand": "/bin/bash -i -c 'npm run dev'",
-  "shutdownAction": "none",
+  "overrideCommand": true,
+  "initializeCommand": "(git config --get user.name || echo 'Developer') > .devcontainer/.git_name && (git config --get user.email || echo 'dev@example.com') > .devcontainer/.git_email && clear",
+  "postCreateCommand": "git config --global url.\"https://github.com/\".insteadOf git@github.com: && git config --global user.name \"$(cat .devcontainer/.git_name)\" && git config --global user.email \"$(cat .devcontainer/.git_email)\" && rm .devcontainer/.git_name .devcontainer/.git_email && clear",
+  "postStartCommand": "npm run dev",
   "customizations": {
     "vscode": {
-      "settings": {
-        "terminal.integrated.defaultProfile.linux": "bash"
-      },
       "extensions": [
-        "github.copilot-chat",
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint",
         "christian-kohler.path-intellisense",
+        "yoavbls.pretty-ts-errors",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
         "echoapi.echoapi-for-vscode",
-        "mikestead.dotenv"
+        "mikestead.dotenv",
+        "github.copilot-chat"
       ]
     }
   }

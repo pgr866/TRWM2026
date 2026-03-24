@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsx watch ./bin/www.ts",
     "build": "tsc",
-    "start": "node ./dist/bin/www.js"
+    "start": "node ./dist/bin/www.js",
+    "test": "jest --coverage"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -21,9 +22,13 @@
     "@types/debug": "^4.1.12",
     "@types/express": "^5.0.6",
     "@types/http-errors": "^2.0.5",
+    "@types/jest": "^30.0.0",
     "@types/morgan": "^1.9.10",
     "@types/node": "^25.3.3",
     "@types/pug": "^2.0.10",
+    "jest": "^30.3.0",
+    "jest-junit": "^16.0.0",
+    "ts-jest": "^29.4.6",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
