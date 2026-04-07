@@ -1,7 +1,5 @@
 import { type Request, type Response } from 'express';
-import mongoose from 'mongoose';
-
-const Loc = mongoose.model('Location');
+import Loc from '../models/locations.js';
 
 export const reviewsReadOne = async (req: Request, res: Response): Promise<any> => {
     try {
