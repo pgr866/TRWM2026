@@ -5,10 +5,10 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import { fileURLToPath } from 'url';
 import { type Request, type Response, type NextFunction } from 'express';
-import './app_server/models/db.js';
+import './app_api/models/db.js';
 
 import indexRouter from './app_server/routes/index.js';
-import usersRouter from './app_server/routes/users.js';
+import apiRouter from './app_api/routes/index.js';
 
 var app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req: Request, res: Response, next: NextFunction) {
