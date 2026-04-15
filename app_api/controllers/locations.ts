@@ -58,6 +58,29 @@ export const locationsUpdate = async (req: Request, res: Response): Promise<any>
     }
 }
 
+export const locationsPartialUpdate = async (req: Request, res: Response): Promise<any> => {
+    try {
+        const location = await Loc.findById(req.params['locationId']).exec();
+        
+        if (!location) {
+            return res.status(404).json({ message: "not found" });
+        }
+
+        Object.keys(req.body).forEach((key) => {
+            (location as any)[key] = req.body[key];
+        });
+
+        await location.save();
+        return res.status(200).json(location);
+    } catch (err: any) {
+        console.error(err.message);
+        if (err.name === "CastError") {
+            return res.status(400).json({ message: "Bad Request" });
+        }
+        res.status(500).json({ message: "Unknown Error" });
+    }
+};
+
 export const locationsDelete = async (req: Request, res: Response): Promise<any> => {
     try {
         const location = await Loc.findByIdAndDelete(req.params['locationId']).exec();
